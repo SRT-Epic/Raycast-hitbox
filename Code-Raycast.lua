@@ -1,6 +1,6 @@
 --Raycast Hitbox--
 --Discord: SRT#2666--
---Version: 1.0.1--
+--Version: 1.0.4--
 
 local Hitbox = {}
 Hitbox.__index = Hitbox
