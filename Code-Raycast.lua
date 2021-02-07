@@ -8,12 +8,9 @@ Hitbox.__index = Hitbox
 local RayParams = RaycastParams.new()
 RayParams.FilterType = Enum.RaycastFilterType.Blacklist
 
-local RunService = game:GetService("RunService")
-
 function Hitbox:Init()
-	RayParams.FilterDescendantsInstances = self.Filter
-
-	self.connect = RunService.Heartbeat:Connect(function()
+	self.connect = game:GetService("RunService").Heartbeat:Connect(function()
+		RayParams.FilterDescendantsInstances = self.Filter
 		for index, info in ipairs(self.FirstPoint) do
 			--RayCast--
 			local EndPoint = self.EndPoint[index].WorldPosition
@@ -30,13 +27,15 @@ function Hitbox:Init()
 	end)
 end
 
-function Hitbox:Cast(callback, filter)
+function Hitbox:Cast(filter, callback)
 	local Filter = self.Filter
 	Filter[#Filter + 1] = self.part
 	self.Callback = callback
 	
-	if filter then
-		Filter[#Filter + 1] = filter
+	for _, value in ipairs(filter) do
+		if value then
+			Filter[#Filter + 1] = filter
+		end
 	end
 end
 
