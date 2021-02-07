@@ -13,7 +13,7 @@ local RunService = game:GetService("RunService")
 function Hitbox:Init()
 	RayParams.FilterDescendantsInstances = self.Filter
 
-	self.connect = RunService.Stepped:Connect(function()
+	self.connect = RunService.Heartbeat:Connect(function()
 		for index, info in ipairs(self.FirstPoint) do
 			--RayCast--
 			local EndPoint = self.EndPoint[index].WorldPosition
