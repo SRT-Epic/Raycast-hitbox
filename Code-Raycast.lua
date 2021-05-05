@@ -1,6 +1,6 @@
 --Raycast Hitbox--
---Discord: SRT#2666--
---Version: 1.0.4--
+--Made by Wolfy#9349--
+--Version: 1.0.5--
 
 local Hitbox = {}
 Hitbox.__index = Hitbox
@@ -17,9 +17,9 @@ function Hitbox:Init()
 			local result = workspace:Raycast(info, (EndPoint - info).Unit *
 				(info - EndPoint).Magnitude, RayParams)
 			if result then
-				local model = result.Instance:FindFirstAncestorWhichIsA("Model")
-				if model:FindFirstChildWhichIsA("Humanoid") then
-					self.Callback(model)
+				if result.Instance.Parent:FindFirstChild("Humanoid") then
+					self.Callback(result.Instance.Parent)
+					self:Remove()
 					return
 				end
 			end
@@ -29,12 +29,11 @@ end
 
 function Hitbox:Cast(filter, callback)
 	local Filter = self.Filter
-	Filter[#Filter + 1] = self.part
 	self.Callback = callback
-	
+
 	for _, value in ipairs(filter) do
 		if value then
-			Filter[#Filter + 1] = filter
+			table.insert(Filter, filter)
 		end
 	end
 end
@@ -49,7 +48,7 @@ function Hitbox:Remove()
 	self.EndPoint = {}
 	self.FirstPoint = {}
 	self.Filter = {}
-	
+
 	self:Stop()
 
 	for index, value in pairs(self) do
@@ -61,19 +60,20 @@ return function(Part)
 	local LastPositions = {}
 	local CurrentPosition = {}
 	local filter = {}
-	
+
 	for _, Info in pairs(Part:GetChildren()) do
 		if Info and Info.ClassName == "Attachment" then
-			CurrentPosition[#CurrentPosition + 1] = Info.WorldPosition
-			LastPositions[#LastPositions + 1] = Info
-			filter[#filter + 1] = Info
+			table.insert(CurrentPosition, Info.WorldPosition)
+			table.insert(LastPositions, Info)
+			table.insert(filter, Info)
 		end
 	end
-
+	
+	table.insert(filter, Part)
 	return setmetatable({
 		part = Part, 
 		Filter = filter, 
 		FirstPoint = CurrentPosition, 
-		EndPoint = LastPositions}
-	, Hitbox)
+		EndPoint = LastPositions
+	}, Hitbox)
 end
