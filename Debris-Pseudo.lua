@@ -5,9 +5,9 @@ local Active = {}
 
 game:GetService("RunService").Stepped:Connect(function()
 	for Position, Info in pairs(Active) do
-		if os.clock() - Info[1] < Info[2] then return end
-		Info[3]()
-
+		if os.clock() - Info[1] < Info[3] then return end
+		Info[2]:Destroy()
+		
 		table.remove(Active, Position)
 	end
 end)
