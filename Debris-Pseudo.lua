@@ -3,7 +3,7 @@
 local Active = {}
 
 game:GetService("RunService").Stepped:Connect(function()
-	for Position, Info in pairs(Active) do
+	for Position, Info in ipairs(Active) do
 		if os.clock() - Info[1] < Info[3] then return end
 		Info[2]:Destroy()
 		
