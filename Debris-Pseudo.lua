@@ -1,5 +1,5 @@
 --Created by Wolfy#9349--
---Version 1.0.0
+--Version 1.0.5
 local ActiveDebris = {}
 
 game:GetService("RunService").Stepped:Connect(function()
