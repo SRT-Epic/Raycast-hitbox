@@ -1,13 +1,12 @@
 --Created by Wolfy#9349--
---Version 1.0.5
+--Version 1.0.7
 local ActiveDebris = {}
 
 game:GetService("RunService").Stepped:Connect(function()
 	for Key, Info in pairs(ActiveDebris) do
-		if os.clock() > Key then
-			Info:Destroy()
-			ActiveDebris[Key] = nil			
-		end
+		if os.clock() < Key then continue end
+		Info:Destroy()
+		ActiveDebris[Key] = nil	
 	end
 end)
 
